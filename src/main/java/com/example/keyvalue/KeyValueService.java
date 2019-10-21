@@ -39,17 +39,17 @@ public String checkFileSize(List<KeyValue> keyValue){
    synchronized public void createOperation(List<KeyValue> keyValues) throws IOException {
         int rowCount;
         String line;
-        FileReader reader = new FileReader("D:\\Directory2\\Info.txt");
+        FileReader reader = new FileReader("C:\\Directory2\\Info.txt");
         BufferedReader bufferedReader = new BufferedReader(reader);
         while ((line = bufferedReader.readLine()) != null) {
             System.out.println(line);
 
             //FileInputStream file = new FileInputStream(line+"\\db.xlsx");
-            FileInputStream fileIn = new FileInputStream("D:\\Directory2\\db.xlsx");
+            FileInputStream fileIn = new FileInputStream("C:\\Directory2\\db.xlsx");
             //Workbook workbook = WorkbookFactory.create(fileIn);
             Workbook workbook = new XSSFWorkbook(fileIn);
             fileIn.close();
-            FileInputStream keyfileIn = new FileInputStream("D:\\Directory2\\keys.xlsx");
+            FileInputStream keyfileIn = new FileInputStream("C:\\Directory2\\keys.xlsx");
             //Workbook workbook = WorkbookFactory.create(fileIn);
             Workbook keyworkbook = new XSSFWorkbook(keyfileIn);
             CreationHelper createHelper = keyworkbook.getCreationHelper();
@@ -75,10 +75,10 @@ public String checkFileSize(List<KeyValue> keyValue){
             keyrow.createCell(3).setCellValue(lastRow);
             keyrow.createCell(4).setCellValue("db.xlsx");
             FileOutputStream out =
-                    new FileOutputStream("D:\\Directory2\\db.xlsx");
+                    new FileOutputStream("C:\\Directory2\\db.xlsx");
             workbook.write(out);
             FileOutputStream keyout =
-                    new FileOutputStream("D:\\Directory2\\keys.xlsx");
+                    new FileOutputStream("C:\\Directory2\\keys.xlsx");
             keyworkbook.write(keyout);
             keyout.close();
             out.close();
@@ -91,12 +91,14 @@ public String checkFileSize(List<KeyValue> keyValue){
     public boolean getPath(String pathName) throws IOException {
         File f = new File(pathName);
 
+        List<String> list = new ArrayList<>();
+
         if(f.exists()){
             File DBFile = new File(pathName+"\\db.xlsx");
             File KeysFile = new File(pathName+"\\keys.xlsx");
-            File LinesFile = new File(pathName+"\\lines.txt");
+            //File LinesFile = new File(pathName+"\\lines.txt");
 
-            if(DBFile.exists()&&KeysFile.exists()&&LinesFile.exists())
+            if(DBFile.exists()&&KeysFile.exists())
                 addInfo(pathName);
                 return true;
             }
@@ -105,9 +107,9 @@ public String checkFileSize(List<KeyValue> keyValue){
 
    public void createPath() throws IOException {
 
-       File DBFile = new File("D:\\Directory2\\db.xlsx");
-       File KeysFile = new File("D:\\Directory2\\keys.xlsx");
-       File LinesFile = new File("D:\\Directory2\\lines.txt");
+       File DBFile = new File("C:\\Directory2\\db.xlsx");
+       File KeysFile = new File("C:\\Directory2\\keys.xlsx");
+       //File LinesFile = new File("D:\\Directory2\\lines.txt");
 
 
 
@@ -116,8 +118,8 @@ public String checkFileSize(List<KeyValue> keyValue){
        }
        DBFile.createNewFile();
        KeysFile.createNewFile();
-       LinesFile.createNewFile();
-       String path = "D:\\Directory2";
+       //LinesFile.createNewFile();
+       String path = "C:\\Directory2";
        addInfo(path);
 
 
@@ -154,7 +156,7 @@ public String checkFileSize(List<KeyValue> keyValue){
 
    private void addInfo(String pathName) throws IOException {
 
-       File InfoFile = new File("D:\\Directory2\\info.txt");
+       File InfoFile = new File("C:\\Directory2\\info.txt");
        FileWriter writer = new FileWriter(InfoFile);
        writer.write(pathName);
        writer.close();
@@ -164,7 +166,7 @@ public String checkFileSize(List<KeyValue> keyValue){
 
    public boolean checkKeyAlreadyexists(List<KeyValue> keyValue) throws IOException {
        boolean IsExists = false;
-       FileInputStream keyfileIn = new FileInputStream("D:\\Directory2\\keys.xlsx");
+       FileInputStream keyfileIn = new FileInputStream("C:\\Directory2\\keys.xlsx");
        //Workbook workbook = WorkbookFactory.create(fileIn);
        Workbook keyworkbook = new XSSFWorkbook(keyfileIn);
        Sheet sheet =  keyworkbook.getSheetAt(0);
@@ -181,7 +183,7 @@ public String checkFileSize(List<KeyValue> keyValue){
 
     public double getKeyRowNum(String key,String type) throws IOException, ParseException {
         double lineNumber = 0;
-        FileInputStream keyfileIn = new FileInputStream("D:\\Directory2\\keys.xlsx");
+        FileInputStream keyfileIn = new FileInputStream("C:\\Directory2\\keys.xlsx");
         //Workbook workbook = WorkbookFactory.create(fileIn);
         Workbook keyworkbook = new XSSFWorkbook(keyfileIn);
         Sheet sheet =  keyworkbook.getSheetAt(0);
@@ -210,7 +212,7 @@ public String checkFileSize(List<KeyValue> keyValue){
                     if (type.equalsIgnoreCase("delete")) {
                         sheet.removeRow(lineCell.getRow());
                         FileOutputStream out =
-                                new FileOutputStream("D:\\Directory2\\keys.xlsx");
+                                new FileOutputStream("C:\\Directory2\\keys.xlsx");
                         keyworkbook.write(out);
                         out.close();
                     }
@@ -225,7 +227,7 @@ public String checkFileSize(List<KeyValue> keyValue){
         String type = "get";
         double lineNumber = getKeyRowNum(key,type);
         if(lineNumber!=0) {
-            FileInputStream keyfileIn = new FileInputStream("D:\\Directory2\\db.xlsx");
+            FileInputStream keyfileIn = new FileInputStream("C:\\Directory2\\db.xlsx");
             //Workbook workbook = WorkbookFactory.create(fileIn);
             Workbook keyworkbook = new XSSFWorkbook(keyfileIn);
             Sheet sheet = keyworkbook.getSheetAt(0);
@@ -242,12 +244,12 @@ public String checkFileSize(List<KeyValue> keyValue){
     String type = "delete";
        double lineNumber = getKeyRowNum(key,type);
        if(lineNumber!=0) {
-           FileInputStream keyfileIn = new FileInputStream("D:\\Directory2\\db.xlsx");
+           FileInputStream keyfileIn = new FileInputStream("C:\\Directory2\\db.xlsx");
            Workbook keyworkbook = new XSSFWorkbook(keyfileIn);
            Sheet sheet = keyworkbook.getSheetAt(0);
            Row row = sheet.getRow((int) lineNumber);
            sheet.removeRow(row);
-           FileOutputStream out = new FileOutputStream("D:\\Directory2\\db.xlsx");
+           FileOutputStream out = new FileOutputStream("C:\\Directory2\\db.xlsx");
            keyworkbook.write(out);
            out.close();
            return "Key-Value Deleted";
